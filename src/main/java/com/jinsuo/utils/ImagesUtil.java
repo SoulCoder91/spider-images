@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 /**
@@ -52,10 +53,14 @@ public class ImagesUtil {
                     Elements a = li.select("a");
                     String imagesHtmlUrl = a.attr("href");// /meitu_84208.html
                     list.add(imagesHtmlUrl);
+                    System.out.println("图集" + (j + 1) + "的url：" + imagesHtmlUrl);
+                    Thread.sleep(2000 + new Random().nextInt(1) * 1000);//延迟2.x s
                 }
             }
         } catch (IOException e) {
             e.getMessage();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
         return list;
     }
@@ -92,12 +97,14 @@ public class ImagesUtil {
                         pageMax = Integer.parseInt(em.text());
                     }
                     Element img = document1.select("#pic-meinv > a > img").first();
-                    String imageUrl = img.attr("data-original");
+                    String imageUrl = img.attr("url");
                     String imagesTitle = img.attr("title");
                     if (null == imageCollectionInfo.getTitle() || "".equals(imageCollectionInfo.getTitle())) {
                         imageCollectionInfo.setTitle(imagesTitle);
                     }
                     imageUrlList.add(imageUrl);
+                    System.out.println("图片" + (imagePage + 1) + "的url：" + imageUrl);
+                    Thread.sleep(3000 + new Random().nextInt(1) * 1000); //延迟 3.x s
                 }
                 imagePage++;
                 if (imagePage >= pageMax) {
@@ -107,7 +114,6 @@ public class ImagesUtil {
                 e.getMessage();
             }
         }
-
         imageCollectionInfo.setUrlList(imageUrlList);
         return imageCollectionInfo;
     }
@@ -137,7 +143,7 @@ public class ImagesUtil {
                     FileOutputStream outputStream = new FileOutputStream(localImagesFile);
                     //执行下载操作
                     IOUtils.copy(inputStream, outputStream);
-                    Thread.sleep(3000);
+                    Thread.sleep(4000 + new Random().nextInt(1) * 1000); //延迟4.x s
                 }
             } catch (Exception e) {
                 e.getMessage();

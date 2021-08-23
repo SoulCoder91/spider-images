@@ -9,18 +9,20 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import java.util.List;
 
 /**
- * 启动类
+ * 爬虫启动类
  */
 public class Spider {
     public static void main(String[] args) {
-        String baseUrl = ConfigReader.searchBaseUrl;
         for (int i = 0; i <= ConfigReader.pageIndexMax; i++) {
-            String indexUrl = baseUrl + "?page=" + i + "&searchid=" + ConfigReader.searchId;
+            // http://www.gaopic.com/e/search/result/index.php?page=1&searchid=3497
+            String indexUrl = ConfigReader.searchBaseUrl+i+"&searchid="+ConfigReader.searchId;
+            System.out.println(indexUrl);
             CloseableHttpClient httpClient = HttpClientBuilder.create().build();
 
             List<String> indexHtmlList = ImagesUtil.getIndexHtmlList(httpClient, indexUrl);
             for (String imagesHtmlUrl : indexHtmlList) {
                 ImageCollectionInfo imageCollectionInfo = ImagesUtil.getImageUrlList(httpClient, imagesHtmlUrl);
+                System.out.println(imageCollectionInfo);
                 //执行下载
                 ImagesUtil.downloadImages(httpClient, imageCollectionInfo);
             }

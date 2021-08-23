@@ -26,4 +26,12 @@ public class ImageCollectionInfo {
     public void setUrlList(List<String> urlList) {
         this.urlList = urlList;
     }
+
+    @Override
+    public String toString() {
+        return "ImageCollectionInfo{" +
+                "title='" + title + '\'' +
+                ", urlList=" + urlList +
+                '}';
+    }
 }
